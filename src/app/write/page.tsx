@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import MarkdownEditor from "@/components/editor/MarkdownEditor";
+import NovelEditor from "@/components/editor/NovelEditor";
 import TagInput from "@/components/editor/TagInput";
 import ImageUpload from "@/components/upload/ImageUpload";
 import {
@@ -200,7 +200,7 @@ function WritePage() {
 
           <TagInput value={tagsInput} onChange={setTagsInput} />
 
-          <MarkdownEditor value={body} onChange={setBody} />
+          <NovelEditor value={body} onChange={setBody} />
 
           <ImageUpload
             onUploaded={(url) => {
