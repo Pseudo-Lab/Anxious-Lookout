@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import NovelEditor from "@/components/editor/NovelEditor";
@@ -26,6 +26,7 @@ function WritePage() {
   const [saving, setSaving] = useState(false);
   const [publishing, setPublishing] = useState(false);
   const [message, setMessage] = useState("");
+  const editorRef = useRef<any>(null);
 
   useEffect(() => {
     if (user) loadDrafts();
@@ -200,11 +201,16 @@ function WritePage() {
 
           <TagInput value={tagsInput} onChange={setTagsInput} />
 
-          <NovelEditor value={body} onChange={setBody} />
+          <NovelEditor value={body} onChange={setBody} editorRef={editorRef} />
 
           <ImageUpload
             onUploaded={(url) => {
-              setBody((prev) => prev + `\n![이미지](${url})\n`);
+              const editor = editorRef.current;
+              if (editor) {
+                editor.chain().focus().setImage({ src: url, alt: "이미지" }).run();
+              } else {
+                setBody((prev) => prev + `\n![이미지](${url})\n`);
+              }
             }}
           />
 

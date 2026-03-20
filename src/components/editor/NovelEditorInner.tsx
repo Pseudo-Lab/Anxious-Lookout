@@ -5,11 +5,13 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
+import Image from "@tiptap/extension-image";
 import TurndownService from "turndown";
 
 interface Props {
   value: string;
   onChange: (markdown: string) => void;
+  editorRef?: React.MutableRefObject<any>;
 }
 
 const td = new TurndownService({
@@ -28,7 +30,7 @@ const slashCommands = [
   { cmd: "hr", label: "구분선", desc: "수평 구분선" },
 ];
 
-export default function TiptapEditor({ value, onChange }: Props) {
+export default function TiptapEditor({ value, onChange, editorRef }: Props) {
   const [slashOpen, setSlashOpen] = useState(false);
   const [slashPos, setSlashPos] = useState({ top: 0, left: 0 });
   const [slashFilter, setSlashFilter] = useState("");
@@ -47,9 +49,14 @@ export default function TiptapEditor({ value, onChange }: Props) {
         placeholder: "내용을 입력하세요. '/' 를 입력하면 명령어를 사용할 수 있습니다.",
       }),
       Underline,
+      Image.configure({ inline: false, allowBase64: false }),
     ],
     content: value || "",
+    onCreate: ({ editor }) => {
+      if (editorRef) editorRef.current = editor;
+    },
     onUpdate: ({ editor }) => {
+      if (editorRef) editorRef.current = editor;
       const md = td.turndown(editor.getHTML());
       onChange(md);
 

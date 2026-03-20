@@ -1,10 +1,12 @@
 "use client";
 
+import { useRef } from "react";
 import dynamic from "next/dynamic";
 
 interface NovelEditorProps {
   value: string;
   onChange: (markdown: string) => void;
+  editorRef?: React.MutableRefObject<any>;
 }
 
 const NovelEditorInner = dynamic(() => import("./NovelEditorInner"), {
@@ -16,7 +18,7 @@ const NovelEditorInner = dynamic(() => import("./NovelEditorInner"), {
   ),
 });
 
-export default function NovelEditor({ value, onChange }: NovelEditorProps) {
+export default function NovelEditor({ value, onChange, editorRef }: NovelEditorProps) {
   return (
     <div className="novel-editor-wrapper rounded-lg border border-stone-300 bg-white focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
       <style>{`
@@ -40,6 +42,12 @@ export default function NovelEditor({ value, onChange }: NovelEditorProps) {
         .novel-editor-wrapper .tiptap li { margin: 0; }
         .novel-editor-wrapper .tiptap li p { margin: 0.1rem 0; }
         .novel-editor-wrapper .tiptap p { margin: 0.5rem 0; }
+        .novel-editor-wrapper .tiptap img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 0.5rem;
+          margin: 1rem 0;
+        }
         .novel-editor-wrapper .tiptap blockquote {
           border-left: 3px solid #6366f1;
           padding-left: 1rem;
@@ -62,7 +70,7 @@ export default function NovelEditor({ value, onChange }: NovelEditorProps) {
           font-size: 0.875em;
         }
       `}</style>
-      <NovelEditorInner value={value} onChange={onChange} />
+      <NovelEditorInner value={value} onChange={onChange} editorRef={editorRef} />
     </div>
   );
 }
