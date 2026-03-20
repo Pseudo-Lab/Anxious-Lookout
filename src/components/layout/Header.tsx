@@ -12,7 +12,7 @@ export default function Header() {
 
   const navLinks = [
     { href: "/", label: "홈", show: true },
-    { href: "/tags/", label: "태그", show: true },
+    { href: "/posts/", label: "글 목록", show: true },
     { href: "/write/", label: "글 쓰기", show: isApproved },
     { href: "/admin/", label: "관리", show: isAdmin },
   ].filter((l) => l.show);
