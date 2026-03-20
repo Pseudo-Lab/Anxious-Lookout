@@ -35,8 +35,11 @@ export default function NovelEditor({ value, onChange }: NovelEditorProps) {
         .novel-editor-wrapper .tiptap h1 { font-size: 1.875rem; font-weight: 700; margin: 1.5rem 0 0.75rem; }
         .novel-editor-wrapper .tiptap h2 { font-size: 1.5rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
         .novel-editor-wrapper .tiptap h3 { font-size: 1.25rem; font-weight: 600; margin: 1rem 0 0.5rem; }
-        .novel-editor-wrapper .tiptap ul { list-style-type: disc; padding-left: 1.5rem; }
-        .novel-editor-wrapper .tiptap ol { list-style-type: decimal; padding-left: 1.5rem; }
+        .novel-editor-wrapper .tiptap ul { list-style-type: disc; padding-left: 1.5rem; margin: 0.25rem 0; }
+        .novel-editor-wrapper .tiptap ol { list-style-type: decimal; padding-left: 1.5rem; margin: 0.25rem 0; }
+        .novel-editor-wrapper .tiptap li { margin: 0; }
+        .novel-editor-wrapper .tiptap li p { margin: 0.1rem 0; }
+        .novel-editor-wrapper .tiptap p { margin: 0.5rem 0; }
         .novel-editor-wrapper .tiptap blockquote {
           border-left: 3px solid #6366f1;
           padding-left: 1rem;
