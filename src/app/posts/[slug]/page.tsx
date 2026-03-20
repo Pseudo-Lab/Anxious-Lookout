@@ -3,6 +3,7 @@ import { getAllPosts, getPostBySlug } from "@/lib/posts/mdx";
 import PostContent from "@/components/posts/PostContent";
 import TagBadge from "@/components/posts/TagBadge";
 import CommentSection from "@/components/comments/CommentSection";
+import LikeButton from "@/components/posts/LikeButton";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -61,6 +62,9 @@ export default async function PostPage({ params }: PageProps) {
         </div>
       </header>
       <PostContent content={post.content} />
+      <div className="mt-10 flex items-center justify-center border-t border-stone-200 pt-8">
+        <LikeButton postSlug={slug} />
+      </div>
       <CommentSection postSlug={slug} />
     </article>
   );
