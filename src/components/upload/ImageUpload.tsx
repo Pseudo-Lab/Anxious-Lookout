@@ -17,7 +17,6 @@ export default function ImageUpload({ onUploaded }: ImageUploadProps) {
   async function handleFile(file: File) {
     if (!user) return;
 
-    // Validate
     if (!file.type.startsWith("image/")) {
       setError("이미지 파일만 업로드할 수 있습니다.");
       return;
@@ -57,7 +56,7 @@ export default function ImageUpload({ onUploaded }: ImageUploadProps) {
       <div
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
-        className="flex cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-zinc-300 px-4 py-6 text-sm text-zinc-500 hover:border-zinc-400 dark:border-zinc-700 dark:hover:border-zinc-600"
+        className="flex cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-stone-300 px-4 py-6 text-sm text-stone-400 transition-colors hover:border-indigo-400 hover:text-indigo-500"
         onClick={() => fileRef.current?.click()}
       >
         {uploading ? "업로드 중..." : "클릭하거나 이미지를 드래그하세요"}

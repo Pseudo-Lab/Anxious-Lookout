@@ -100,7 +100,6 @@ function WritePage() {
       const tags = parseTags(tagsInput);
       let draft = currentDraft;
 
-      // 저장되지 않은 글이면 먼저 저장
       if (!draft) {
         draft = await createDraft(user.id, title, body, tags);
       } else {
@@ -137,55 +136,57 @@ function WritePage() {
     <div className="flex gap-8">
       {/* Sidebar: draft list */}
       <aside className="hidden w-56 shrink-0 md:block">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold">내 글</h2>
-          <button
-            onClick={newDraft}
-            className="text-xs text-blue-600 hover:underline"
-          >
-            + 새 글
-          </button>
+        <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-stone-200/60">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-stone-800">내 글</h2>
+            <button
+              onClick={newDraft}
+              className="text-xs font-medium text-indigo-600 hover:text-indigo-800"
+            >
+              + 새 글
+            </button>
+          </div>
+          <ul className="mt-3 space-y-1">
+            {drafts.map((d) => (
+              <li key={d.id}>
+                <button
+                  onClick={() => selectDraft(d)}
+                  className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                    currentDraft?.id === d.id
+                      ? "bg-indigo-50 text-indigo-700"
+                      : "text-stone-600 hover:bg-stone-50"
+                  }`}
+                >
+                  <div className="truncate font-medium">
+                    {d.title || "제목 없음"}
+                  </div>
+                  <div className="mt-0.5 flex items-center gap-2 text-xs text-stone-400">
+                    <span>{statusLabel[d.status] ?? d.status}</span>
+                    {d.status === "draft" && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(d.id);
+                        }}
+                        className="text-red-400 hover:text-red-600"
+                      >
+                        삭제
+                      </button>
+                    )}
+                  </div>
+                </button>
+              </li>
+            ))}
+            {drafts.length === 0 && (
+              <li className="px-3 py-2 text-xs text-stone-400">글이 없습니다.</li>
+            )}
+          </ul>
         </div>
-        <ul className="mt-3 space-y-2">
-          {drafts.map((d) => (
-            <li key={d.id}>
-              <button
-                onClick={() => selectDraft(d)}
-                className={`w-full rounded-md px-3 py-2 text-left text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 ${
-                  currentDraft?.id === d.id
-                    ? "bg-zinc-100 dark:bg-zinc-800"
-                    : ""
-                }`}
-              >
-                <div className="truncate font-medium">
-                  {d.title || "제목 없음"}
-                </div>
-                <div className="mt-0.5 flex items-center gap-2 text-xs text-zinc-400">
-                  <span>{statusLabel[d.status] ?? d.status}</span>
-                  {d.status === "draft" && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(d.id);
-                      }}
-                      className="text-red-400 hover:text-red-600"
-                    >
-                      삭제
-                    </button>
-                  )}
-                </div>
-              </button>
-            </li>
-          ))}
-          {drafts.length === 0 && (
-            <li className="px-3 text-xs text-zinc-400">글이 없습니다.</li>
-          )}
-        </ul>
       </aside>
 
       {/* Editor */}
       <div className="flex-1">
-        <h1 className="mb-6 text-2xl font-bold">글 쓰기</h1>
+        <h1 className="mb-6 text-2xl font-bold text-stone-900">글 쓰기</h1>
 
         <div className="flex flex-col gap-4">
           <input
@@ -193,7 +194,7 @@ function WritePage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="제목"
-            className="w-full rounded-md border border-zinc-300 px-4 py-2 text-lg font-semibold dark:border-zinc-700 dark:bg-zinc-900"
+            className="w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-lg font-semibold text-stone-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
           />
 
           <input
@@ -201,7 +202,7 @@ function WritePage() {
             value={tagsInput}
             onChange={(e) => setTagsInput(e.target.value)}
             placeholder="태그 (쉼표로 구분: AI, 논문리뷰, 딥러닝)"
-            className="w-full rounded-md border border-zinc-300 px-4 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
+            className="w-full rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm text-stone-700 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
           />
 
           <MarkdownEditor value={body} onChange={setBody} />
@@ -213,7 +214,7 @@ function WritePage() {
           />
 
           {message && (
-            <p className="text-sm text-blue-600 dark:text-blue-400">
+            <p className="text-sm font-medium text-indigo-600">
               {message}
             </p>
           )}
@@ -222,14 +223,14 @@ function WritePage() {
             <button
               onClick={handleSave}
               disabled={saving || !title.trim() || !body.trim()}
-              className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
+              className="rounded-lg border border-stone-300 px-5 py-2 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-50 disabled:opacity-50"
             >
               {saving ? "저장 중..." : "저장"}
             </button>
             <button
               onClick={handlePublish}
               disabled={publishing || !title.trim() || !body.trim()}
-              className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+              className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700 disabled:opacity-50"
             >
               {publishing ? "발행 중..." : "발행"}
             </button>

@@ -25,10 +25,19 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="mx-auto max-w-sm py-20">
-      <div className="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-stone-200/60">
-        <h1 className="mb-2 text-center text-2xl font-bold text-stone-900">
-          로그인
+    <div className="-mx-6 -mt-10 flex min-h-[70vh] items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-50 via-white to-amber-50">
+      <div className="mx-4 w-full max-w-sm rounded-2xl bg-white p-8 shadow-lg ring-1 ring-stone-200/60">
+        <div className="mb-6 flex justify-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600">
+            <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+          </div>
+        </div>
+
+        <h1 className="mb-1 text-center text-2xl font-bold text-stone-900">
+          초조한 전망대
         </h1>
         <p className="mb-8 text-center text-sm text-stone-500">
           GitHub 계정으로 시작하세요
