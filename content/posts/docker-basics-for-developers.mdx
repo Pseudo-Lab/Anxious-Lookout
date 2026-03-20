@@ -1,0 +1,68 @@
+---
+title: "개발자를 위한 Docker 기초"
+description: "Docker의 핵심 개념과 실무에서 자주 쓰는 명령어를 정리합니다."
+date: "2026-03-17"
+author: "박개발"
+tags: ["DevOps", "Docker", "인프라"]
+---
+
+## Docker란?
+
+Docker는 애플리케이션을 컨테이너라는 격리된 환경에서 실행할 수 있게 해주는 도구입니다.
+
+## 핵심 개념
+
+### 이미지 vs 컨테이너
+
+- **이미지**: 실행에 필요한 모든 것을 담은 읽기 전용 템플릿
+- **컨테이너**: 이미지를 기반으로 실행된 인스턴스
+
+### Dockerfile
+
+```dockerfile
+FROM node:22-alpine
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+COPY . .
+EXPOSE 3000
+CMD ["pnpm", "dev"]
+```
+
+각 명령어가 하나의 **레이어**를 생성합니다. 변경이 적은 레이어를 위쪽에 배치하면 캐시를 효율적으로 활용할 수 있습니다.
+
+## 자주 쓰는 명령어
+
+```bash
+# 이미지 빌드
+docker build -t myapp .
+
+# 컨테이너 실행
+docker run -p 3000:3000 myapp
+
+# 실행 중인 컨테이너 확인
+docker ps
+
+# 컨테이너 중지
+docker stop <container_id>
+```
+
+## docker-compose
+
+여러 서비스를 한번에 관리할 때 사용합니다.
+
+```yaml
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+```
+
+`docker compose up` 한 줄이면 개발 환경이 준비됩니다.
+
+## 정리
+
+Docker를 사용하면 "내 컴퓨터에서는 되는데..."라는 문제를 해결할 수 있습니다. 개발 환경의 일관성을 보장하고, 배포를 단순화하는 강력한 도구입니다.

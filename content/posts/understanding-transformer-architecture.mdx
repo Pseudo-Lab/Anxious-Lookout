@@ -1,0 +1,44 @@
+---
+title: "Transformer 아키텍처 이해하기"
+description: "Attention Is All You Need 논문의 핵심 개념을 정리합니다."
+date: "2026-03-18"
+author: "김스터디"
+tags: ["AI", "논문리뷰", "딥러닝"]
+---
+
+## 개요
+
+2017년 Google이 발표한 "Attention Is All You Need" 논문은 자연어 처리 분야에 혁신을 가져왔습니다.
+
+## Self-Attention 메커니즘
+
+Self-Attention은 시퀀스 내의 각 토큰이 다른 모든 토큰과의 관계를 계산하는 메커니즘입니다.
+
+### Query, Key, Value
+
+- **Query (Q)**: 현재 토큰이 "무엇을 찾고 있는지"
+- **Key (K)**: 각 토큰이 "어떤 정보를 가지고 있는지"
+- **Value (V)**: 실제로 전달할 정보
+
+### Attention Score 계산
+
+```
+Attention(Q, K, V) = softmax(QK^T / √d_k) V
+```
+
+`√d_k`로 나누는 이유는 내적 값이 커지면 softmax의 gradient가 매우 작아지기 때문입니다.
+
+## Multi-Head Attention
+
+단일 attention 대신 여러 개의 attention head를 병렬로 수행합니다. 각 head가 서로 다른 표현 부분공간에서 정보를 학습할 수 있습니다.
+
+## 핵심 정리
+
+| 구성요소 | 역할 |
+|---------|------|
+| Self-Attention | 시퀀스 내 장거리 의존성 포착 |
+| Multi-Head | 다양한 관점에서 관계 학습 |
+| Positional Encoding | 순서 정보 주입 |
+| Feed-Forward | 비선형 변환 |
+
+다음 글에서는 BERT와 GPT가 Transformer를 어떻게 활용하는지 정리하겠습니다.
