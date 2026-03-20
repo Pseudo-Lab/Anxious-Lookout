@@ -92,15 +92,22 @@ function WritePage() {
   }
 
   async function handlePublish() {
-    if (!currentDraft) {
-      setMessage("먼저 초안을 저장해주세요.");
-      return;
-    }
+    if (!user || !title.trim() || !body.trim()) return;
     setPublishing(true);
     setMessage("");
 
     try {
-      await publishDraft(currentDraft.id);
+      const tags = parseTags(tagsInput);
+      let draft = currentDraft;
+
+      // 저장되지 않은 글이면 먼저 저장
+      if (!draft) {
+        draft = await createDraft(user.id, title, body, tags);
+      } else {
+        draft = await updateDraft(draft.id, { title, body, tags });
+      }
+
+      await publishDraft(draft.id);
       setMessage("발행되었습니다!");
       newDraft();
       await loadDrafts();
@@ -221,7 +228,7 @@ function WritePage() {
             </button>
             <button
               onClick={handlePublish}
-              disabled={publishing || !currentDraft}
+              disabled={publishing || !title.trim() || !body.trim()}
               className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
             >
               {publishing ? "발행 중..." : "발행"}
