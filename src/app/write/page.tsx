@@ -164,17 +164,17 @@ function WritePage() {
                   </div>
                   <div className="mt-0.5 flex items-center gap-2 text-xs text-stone-400">
                     <span>{statusLabel[d.status] ?? d.status}</span>
-                    {d.status === "draft" && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (confirm("정말 삭제하시겠습니까?")) {
                           handleDelete(d.id);
-                        }}
-                        className="text-red-400 hover:text-red-600"
-                      >
-                        삭제
-                      </button>
-                    )}
+                        }
+                      }}
+                      className="text-red-400 hover:text-red-600"
+                    >
+                      삭제
+                    </button>
                   </div>
                 </button>
               </li>
@@ -201,7 +201,7 @@ function WritePage() {
 
           <TagInput value={tagsInput} onChange={setTagsInput} />
 
-          <NovelEditor value={body} onChange={setBody} editorRef={editorRef} />
+          <NovelEditor key={currentDraft?.id ?? "new"} value={body} onChange={setBody} editorRef={editorRef} />
 
           <ImageUpload
             onUploaded={(url) => {
