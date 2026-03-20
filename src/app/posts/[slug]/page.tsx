@@ -44,14 +44,14 @@ export default async function PostPage({ params }: PageProps) {
   return (
     <article>
       <header className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">
+        <h1 className="text-3xl font-bold tracking-tight text-stone-900">
           {post.frontmatter.title}
         </h1>
-        <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+        <p className="mt-2 text-stone-500">
           {post.frontmatter.description}
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-3">
-          <span className="text-sm text-zinc-500">
+          <span className="text-sm text-stone-500">
             {post.frontmatter.author} &middot; {post.frontmatter.date}
           </span>
           <div className="flex gap-2">

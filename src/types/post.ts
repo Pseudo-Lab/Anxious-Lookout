@@ -12,4 +12,5 @@ export interface Post {
   slug: string;
   frontmatter: PostFrontmatter;
   content: string;
+  source?: "mdx" | "supabase";
 }

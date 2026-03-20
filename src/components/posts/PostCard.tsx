@@ -7,21 +7,26 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post }: PostCardProps) {
-  const { slug, frontmatter } = post;
+  const { slug, frontmatter, source } = post;
+  const href =
+    source === "supabase" ? `/view/?id=${slug}` : `/posts/${slug}/`;
 
   return (
     <article className="group rounded-xl bg-white p-6 shadow-sm ring-1 ring-stone-200/60 transition-all hover:shadow-md hover:ring-indigo-200">
-      <Link href={`/posts/${slug}/`} className="block">
+      <Link href={href} className="block">
         <h2 className="text-xl font-semibold tracking-tight text-stone-900 transition-colors group-hover:text-indigo-600">
           {frontmatter.title}
         </h2>
-        <p className="mt-2 line-clamp-2 text-stone-500">
-          {frontmatter.description}
-        </p>
+        {frontmatter.description && (
+          <p className="mt-2 line-clamp-2 text-stone-500">
+            {frontmatter.description}
+          </p>
+        )}
       </Link>
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <span className="text-sm text-stone-400">
-          {frontmatter.author} &middot; {frontmatter.date}
+          {frontmatter.author ? `${frontmatter.author} · ` : ""}
+          {frontmatter.date}
         </span>
         <div className="flex gap-2">
           {frontmatter.tags?.map((tag) => (

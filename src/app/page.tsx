@@ -1,9 +1,10 @@
 import { getAllPosts } from "@/lib/posts/mdx";
-import PostList from "@/components/posts/PostList";
 import { SITE_DESCRIPTION } from "@/lib/constants";
+import PostList from "@/components/posts/PostList";
+import SupabasePosts from "@/components/posts/SupabasePosts";
 
 export default function HomePage() {
-  const posts = getAllPosts();
+  const mdxPosts = getAllPosts();
 
   return (
     <>
@@ -23,7 +24,7 @@ export default function HomePage() {
         <h2 className="mb-6 text-lg font-semibold text-stone-800">
           최근 글
         </h2>
-        <PostList posts={posts} />
+        <SupabasePosts mdxPosts={mdxPosts} />
       </section>
     </>
   );
