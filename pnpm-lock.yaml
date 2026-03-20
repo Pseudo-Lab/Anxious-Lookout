@@ -11,9 +11,6 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.99.3
         version: 2.99.3
-      '@tiptap/extension-bubble-menu':
-        specifier: ^3.20.4
-        version: 3.20.4(@tiptap/core@3.20.4(@tiptap/pm@3.20.4))(@tiptap/pm@3.20.4)
       '@tiptap/extension-placeholder':
         specifier: ^3.20.4
         version: 3.20.4(@tiptap/extensions@3.20.4(@tiptap/core@3.20.4(@tiptap/pm@3.20.4))(@tiptap/pm@3.20.4))
@@ -2942,13 +2939,16 @@ snapshots:
   '@floating-ui/core@1.7.5':
     dependencies:
       '@floating-ui/utils': 0.2.11
+    optional: true
 
   '@floating-ui/dom@1.7.6':
     dependencies:
       '@floating-ui/core': 1.7.5
       '@floating-ui/utils': 0.2.11
+    optional: true
 
-  '@floating-ui/utils@0.2.11': {}
+  '@floating-ui/utils@0.2.11':
+    optional: true
 
   '@humanfs/core@0.19.1': {}
 
@@ -3298,6 +3298,7 @@ snapshots:
       '@floating-ui/dom': 1.7.6
       '@tiptap/core': 3.20.4(@tiptap/pm@3.20.4)
       '@tiptap/pm': 3.20.4
+    optional: true
 
   '@tiptap/extension-bullet-list@3.20.4(@tiptap/extension-list@3.20.4(@tiptap/core@3.20.4(@tiptap/pm@3.20.4))(@tiptap/pm@3.20.4))':
     dependencies:

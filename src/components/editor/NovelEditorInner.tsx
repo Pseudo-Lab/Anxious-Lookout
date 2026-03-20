@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useEditor, EditorContent, BubbleMenu } from "@tiptap/react";
+import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
@@ -33,6 +33,8 @@ export default function TiptapEditor({ value, onChange }: Props) {
   const [slashPos, setSlashPos] = useState({ top: 0, left: 0 });
   const [slashFilter, setSlashFilter] = useState("");
   const [selectedIdx, setSelectedIdx] = useState(0);
+  const [bubbleOpen, setBubbleOpen] = useState(false);
+  const [bubblePos, setBubblePos] = useState({ top: 0, left: 0 });
   const menuRef = useRef<HTMLDivElement>(null);
 
   const editor = useEditor({
@@ -51,7 +53,7 @@ export default function TiptapEditor({ value, onChange }: Props) {
       const md = td.turndown(editor.getHTML());
       onChange(md);
 
-      // Check for slash command
+      // Slash command detection
       const { state } = editor;
       const { from } = state.selection;
       const textBefore = state.doc.textBetween(
@@ -70,6 +72,21 @@ export default function TiptapEditor({ value, onChange }: Props) {
       } else {
         setSlashOpen(false);
       }
+    },
+    onSelectionUpdate: ({ editor }) => {
+      const { from, to } = editor.state.selection;
+      if (from === to) {
+        setBubbleOpen(false);
+        return;
+      }
+      // Show bubble menu above selection
+      const coords = editor.view.coordsAtPos(from);
+      const endCoords = editor.view.coordsAtPos(to);
+      setBubblePos({
+        top: coords.top - 48,
+        left: (coords.left + endCoords.left) / 2,
+      });
+      setBubbleOpen(true);
     },
     editorProps: {
       attributes: {
@@ -113,7 +130,6 @@ export default function TiptapEditor({ value, onChange }: Props) {
       if (!editor) return;
       setSlashOpen(false);
 
-      // Delete the slash and any filter text
       const { state } = editor;
       const { from } = state.selection;
       const textBefore = state.doc.textBetween(
@@ -141,7 +157,6 @@ export default function TiptapEditor({ value, onChange }: Props) {
     [editor]
   );
 
-  // Close slash menu on click outside
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -163,79 +178,53 @@ export default function TiptapEditor({ value, onChange }: Props) {
       <EditorContent editor={editor} />
 
       {/* Bubble Menu - 텍스트 선택 시 나타나는 툴바 */}
-      {editor && (
-        <BubbleMenu
-          editor={editor}
-          tippyOptions={{ duration: 150 }}
-          className="flex items-center gap-0.5 rounded-lg border border-stone-200 bg-white px-1 py-1 shadow-lg"
+      {bubbleOpen && editor && (
+        <div
+          className="fixed z-50 flex items-center gap-0.5 rounded-lg border border-stone-200 bg-white px-1 py-1 shadow-lg"
+          style={{ top: bubblePos.top, left: bubblePos.left, transform: "translateX(-50%)" }}
         >
           <button
-            onMouseDown={(e) => {
-              e.preventDefault();
-              editor.chain().focus().toggleBold().run();
-            }}
+            onMouseDown={(e) => { e.preventDefault(); editor.chain().focus().toggleBold().run(); }}
             className={`rounded px-2 py-1 text-sm font-bold transition-colors ${
-              editor.isActive("bold")
-                ? "bg-indigo-100 text-indigo-700"
-                : "text-stone-600 hover:bg-stone-100"
+              editor.isActive("bold") ? "bg-indigo-100 text-indigo-700" : "text-stone-600 hover:bg-stone-100"
             }`}
           >
             B
           </button>
           <button
-            onMouseDown={(e) => {
-              e.preventDefault();
-              editor.chain().focus().toggleItalic().run();
-            }}
+            onMouseDown={(e) => { e.preventDefault(); editor.chain().focus().toggleItalic().run(); }}
             className={`rounded px-2 py-1 text-sm italic transition-colors ${
-              editor.isActive("italic")
-                ? "bg-indigo-100 text-indigo-700"
-                : "text-stone-600 hover:bg-stone-100"
+              editor.isActive("italic") ? "bg-indigo-100 text-indigo-700" : "text-stone-600 hover:bg-stone-100"
             }`}
           >
             I
           </button>
           <button
-            onMouseDown={(e) => {
-              e.preventDefault();
-              editor.chain().focus().toggleUnderline().run();
-            }}
+            onMouseDown={(e) => { e.preventDefault(); editor.chain().focus().toggleUnderline().run(); }}
             className={`rounded px-2 py-1 text-sm underline transition-colors ${
-              editor.isActive("underline")
-                ? "bg-indigo-100 text-indigo-700"
-                : "text-stone-600 hover:bg-stone-100"
+              editor.isActive("underline") ? "bg-indigo-100 text-indigo-700" : "text-stone-600 hover:bg-stone-100"
             }`}
           >
             U
           </button>
           <button
-            onMouseDown={(e) => {
-              e.preventDefault();
-              editor.chain().focus().toggleStrike().run();
-            }}
+            onMouseDown={(e) => { e.preventDefault(); editor.chain().focus().toggleStrike().run(); }}
             className={`rounded px-2 py-1 text-sm line-through transition-colors ${
-              editor.isActive("strike")
-                ? "bg-indigo-100 text-indigo-700"
-                : "text-stone-600 hover:bg-stone-100"
+              editor.isActive("strike") ? "bg-indigo-100 text-indigo-700" : "text-stone-600 hover:bg-stone-100"
             }`}
           >
             S
           </button>
           <div className="mx-1 h-5 w-px bg-stone-200" />
           <button
-            onMouseDown={(e) => {
-              e.preventDefault();
-              editor.chain().focus().toggleCode().run();
-            }}
+            onMouseDown={(e) => { e.preventDefault(); editor.chain().focus().toggleCode().run(); }}
             className={`rounded px-2 py-1 font-mono text-xs transition-colors ${
-              editor.isActive("code")
-                ? "bg-indigo-100 text-indigo-700"
-                : "text-stone-600 hover:bg-stone-100"
+              editor.isActive("code") ? "bg-indigo-100 text-indigo-700" : "text-stone-600 hover:bg-stone-100"
             }`}
           >
             {"<>"}
           </button>
-        </BubbleMenu>
+        </div>
       )}
 
       {/* Slash Menu */}
