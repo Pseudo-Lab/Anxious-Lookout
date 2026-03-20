@@ -7,9 +7,8 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post }: PostCardProps) {
-  const { slug, frontmatter, source } = post;
-  const href =
-    source === "supabase" ? `/view/?id=${slug}` : `/posts/${slug}/`;
+  const { slug, frontmatter } = post;
+  const href = `/view/?id=${slug}`;
 
   return (
     <article className="group rounded-xl bg-white p-6 shadow-sm ring-1 ring-stone-200/60 transition-all hover:shadow-md hover:ring-indigo-200">

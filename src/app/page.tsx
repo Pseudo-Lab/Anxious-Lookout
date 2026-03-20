@@ -1,11 +1,7 @@
-import { getAllPosts } from "@/lib/posts/mdx";
 import { SITE_DESCRIPTION } from "@/lib/constants";
-import PostList from "@/components/posts/PostList";
 import SupabasePosts from "@/components/posts/SupabasePosts";
 
 export default function HomePage() {
-  const mdxPosts = getAllPosts();
-
   return (
     <>
       <section className="mb-12 rounded-2xl bg-gradient-to-br from-indigo-50 via-white to-amber-50 px-8 py-12 shadow-sm ring-1 ring-stone-200/60">
@@ -24,7 +20,7 @@ export default function HomePage() {
         <h2 className="mb-6 text-lg font-semibold text-stone-800">
           최근 글
         </h2>
-        <SupabasePosts mdxPosts={mdxPosts} />
+        <SupabasePosts />
       </section>
     </>
   );

@@ -6,10 +6,6 @@ import type { Post } from "@/types/post";
 import type { PostDraft } from "@/lib/supabase/types";
 import PostList from "./PostList";
 
-interface SupabasePostsProps {
-  mdxPosts: Post[];
-}
-
 function draftToPost(draft: PostDraft): Post {
   return {
     slug: draft.slug || draft.id,
@@ -21,32 +17,30 @@ function draftToPost(draft: PostDraft): Post {
       tags: draft.tags ?? [],
     },
     content: draft.body,
-    source: "supabase" as const,
+    source: "supabase",
   };
 }
 
-export default function SupabasePosts({ mdxPosts }: SupabasePostsProps) {
-  const [allPosts, setAllPosts] = useState<Post[]>(mdxPosts);
+export default function SupabasePosts() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getPublishedPosts()
       .then((drafts) => {
-        const supabasePosts = drafts.map(draftToPost);
-        const mdxSlugs = new Set(mdxPosts.map((p) => p.slug));
-        const uniqueSupabase = supabasePosts.filter(
-          (p) => !mdxSlugs.has(p.slug)
-        );
-        const merged = [...mdxPosts, ...uniqueSupabase].sort(
-          (a, b) =>
-            new Date(b.frontmatter.date).getTime() -
-            new Date(a.frontmatter.date).getTime()
-        );
-        setAllPosts(merged);
+        setPosts(drafts.map(draftToPost));
       })
-      .catch(() => {
-        // Supabase 실패 시 MDX만 표시
-      });
-  }, [mdxPosts]);
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
 
-  return <PostList posts={allPosts} />;
+  if (loading) {
+    return (
+      <div className="flex justify-center py-12">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-stone-300 border-t-indigo-600" />
+      </div>
+    );
+  }
+
+  return <PostList posts={posts} />;
 }
