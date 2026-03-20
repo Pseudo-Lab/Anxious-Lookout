@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
 
 :root {
   --background: #fafaf9;
@@ -18,7 +19,7 @@
   --color-card-bg: var(--card-bg);
   --color-card-border: var(--card-border);
   --color-muted: var(--muted);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: "Pretendard Variable", var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
