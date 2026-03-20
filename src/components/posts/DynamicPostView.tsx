@@ -47,7 +47,7 @@ export default function DynamicPostView({ slug }: DynamicPostViewProps) {
   }
 
   return (
-    <article>
+    <article className="mx-auto max-w-3xl">
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-stone-900">
           {post.title}
