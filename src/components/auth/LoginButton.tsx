@@ -6,31 +6,35 @@ import { useAuth } from "@/hooks/useAuth";
 export default function LoginButton() {
   const { user, profile, loading, signOut } = useAuth();
 
-  if (loading) {
-    return (
-      <span className="text-sm text-zinc-400">...</span>
-    );
-  }
+  if (loading) return null;
 
   if (!user) {
     return (
-      <Link
-        href="/auth/login/"
-        className="rounded-md bg-zinc-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
-      >
-        로그인
-      </Link>
+      <div className="flex items-center gap-2">
+        <Link
+          href="/auth/login/?mode=signup"
+          className="rounded-lg border border-indigo-600 px-4 py-1.5 text-sm font-medium text-indigo-600 transition-colors hover:bg-indigo-50"
+        >
+          회원가입
+        </Link>
+        <Link
+          href="/auth/login/"
+          className="rounded-lg bg-indigo-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700"
+        >
+          로그인
+        </Link>
+      </div>
     );
   }
 
   return (
     <div className="flex items-center gap-3">
-      <span className="text-sm text-zinc-600 dark:text-zinc-400">
+      <span className="text-sm font-medium text-stone-600">
         {profile?.display_name || user.email}
       </span>
       <button
         onClick={() => signOut()}
-        className="rounded-md border border-zinc-300 px-3 py-1 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
+        className="rounded-lg border border-stone-300 px-3 py-1 text-sm text-stone-500 transition-colors hover:bg-stone-100"
       >
         로그아웃
       </button>

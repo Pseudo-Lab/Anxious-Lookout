@@ -10,17 +10,17 @@ export default function PostCard({ post }: PostCardProps) {
   const { slug, frontmatter } = post;
 
   return (
-    <article className="group border-b border-zinc-100 py-8 first:pt-0 last:border-b-0 dark:border-zinc-800">
+    <article className="group rounded-xl bg-white p-6 shadow-sm ring-1 ring-stone-200/60 transition-all hover:shadow-md hover:ring-indigo-200">
       <Link href={`/posts/${slug}/`} className="block">
-        <h2 className="text-xl font-semibold tracking-tight group-hover:text-blue-600 dark:group-hover:text-blue-400">
+        <h2 className="text-xl font-semibold tracking-tight text-stone-900 transition-colors group-hover:text-indigo-600">
           {frontmatter.title}
         </h2>
-        <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+        <p className="mt-2 line-clamp-2 text-stone-500">
           {frontmatter.description}
         </p>
       </Link>
-      <div className="mt-3 flex flex-wrap items-center gap-3">
-        <span className="text-sm text-zinc-500 dark:text-zinc-500">
+      <div className="mt-4 flex flex-wrap items-center gap-3">
+        <span className="text-sm text-stone-400">
           {frontmatter.author} &middot; {frontmatter.date}
         </span>
         <div className="flex gap-2">

@@ -8,14 +8,14 @@ interface PostListProps {
 export default function PostList({ posts }: PostListProps) {
   if (posts.length === 0) {
     return (
-      <p className="py-12 text-center text-zinc-500 dark:text-zinc-400">
-        아직 게시된 글이 없습니다.
-      </p>
+      <div className="rounded-xl bg-white px-6 py-16 text-center shadow-sm ring-1 ring-stone-200/60">
+        <p className="text-lg text-stone-400">아직 게시된 글이 없습니다.</p>
+      </div>
     );
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       {posts.map((post) => (
         <PostCard key={post.slug} post={post} />
       ))}

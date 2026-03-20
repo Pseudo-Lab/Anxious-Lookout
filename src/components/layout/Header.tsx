@@ -9,29 +9,30 @@ export default function Header() {
   const { isApproved, isAdmin } = useProfile();
 
   return (
-    <header className="border-b border-zinc-200 dark:border-zinc-800">
+    <header className="sticky top-0 z-50 border-b border-stone-200 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
-        <Link href="/" className="text-xl font-bold tracking-tight">
+        <Link href="/" className="flex items-center gap-2 text-xl font-bold tracking-tight text-stone-900">
+          <span className="inline-block h-7 w-7 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600" />
           {SITE_NAME}
         </Link>
         <div className="flex items-center gap-6">
-          <nav className="flex items-center gap-6 text-sm">
+          <nav className="flex items-center gap-5 text-sm font-medium">
             <Link
               href="/"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+              className="text-stone-500 transition-colors hover:text-indigo-600"
             >
               홈
             </Link>
             <Link
               href="/tags/"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+              className="text-stone-500 transition-colors hover:text-indigo-600"
             >
               태그
             </Link>
             {isApproved && (
               <Link
                 href="/write/"
-                className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                className="text-stone-500 transition-colors hover:text-indigo-600"
               >
                 글 쓰기
               </Link>
@@ -39,7 +40,7 @@ export default function Header() {
             {isAdmin && (
               <Link
                 href="/admin/"
-                className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                className="text-stone-500 transition-colors hover:text-indigo-600"
               >
                 관리
               </Link>
