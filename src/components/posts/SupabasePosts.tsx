@@ -21,7 +21,11 @@ function draftToPost(draft: PostDraft): Post {
   };
 }
 
-export default function SupabasePosts() {
+interface SupabasePostsProps {
+  limit?: number;
+}
+
+export default function SupabasePosts({ limit }: SupabasePostsProps) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -42,5 +46,7 @@ export default function SupabasePosts() {
     );
   }
 
-  return <PostList posts={posts} />;
+  const displayed = limit ? posts.slice(0, limit) : posts;
+
+  return <PostList posts={displayed} />;
 }
