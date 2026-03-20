@@ -7,6 +7,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import Image from "@tiptap/extension-image";
 import TurndownService from "turndown";
+import { marked } from "marked";
 
 interface Props {
   value: string;
@@ -51,7 +52,7 @@ export default function TiptapEditor({ value, onChange, editorRef }: Props) {
       Underline,
       Image.configure({ inline: false, allowBase64: false }),
     ],
-    content: value || "",
+    content: value ? (marked.parse(value) as string) : "",
     onCreate: ({ editor }) => {
       if (editorRef) editorRef.current = editor;
     },
