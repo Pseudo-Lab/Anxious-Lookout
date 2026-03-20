@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import MarkdownEditor from "@/components/editor/MarkdownEditor";
+import TagInput from "@/components/editor/TagInput";
 import ImageUpload from "@/components/upload/ImageUpload";
 import {
   getMyDrafts,
@@ -197,13 +198,7 @@ function WritePage() {
             className="w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-lg font-semibold text-stone-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
           />
 
-          <input
-            type="text"
-            value={tagsInput}
-            onChange={(e) => setTagsInput(e.target.value)}
-            placeholder="태그 (쉼표로 구분: AI, 논문리뷰, 딥러닝)"
-            className="w-full rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm text-stone-700 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-          />
+          <TagInput value={tagsInput} onChange={setTagsInput} />
 
           <MarkdownEditor value={body} onChange={setBody} />
 
