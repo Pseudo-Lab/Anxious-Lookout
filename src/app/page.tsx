@@ -1,21 +1,11 @@
-import { SITE_DESCRIPTION } from "@/lib/constants";
 import SupabasePosts from "@/components/posts/SupabasePosts";
+import Hero from "@/components/layout/Hero";
 import Link from "next/link";
 
 export default function HomePage() {
   return (
     <>
-      <section className="mb-12 rounded-2xl bg-gradient-to-br from-indigo-50 via-white to-amber-50 px-8 py-12 shadow-sm ring-1 ring-stone-200/60">
-        <p className="text-sm font-semibold uppercase tracking-widest text-indigo-600">
-          Anxious Lookout
-        </p>
-        <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-stone-900">
-          초조한 전망대
-        </h1>
-        <p className="mt-3 max-w-xl text-lg text-stone-500">
-          {SITE_DESCRIPTION}
-        </p>
-      </section>
+      <Hero />
 
       <section className="mb-12">
         <div className="mb-6 flex items-center justify-between">
