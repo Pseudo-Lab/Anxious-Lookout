@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getPublishedPostBySlug } from "@/lib/drafts/published";
-import PostContent from "./PostContent";
+import MarkdownContent from "./MarkdownContent";
 import TagBadge from "./TagBadge";
 import LikeButton from "./LikeButton";
 import CommentSection from "@/components/comments/CommentSection";
@@ -63,7 +63,7 @@ export default function DynamicPostView({ slug }: DynamicPostViewProps) {
           </div>
         </div>
       </header>
-      <PostContent content={post.body} />
+      <MarkdownContent content={post.body} />
       <div className="mt-10 flex items-center justify-center border-t border-stone-200 pt-8">
         <LikeButton postSlug={slug} />
       </div>
