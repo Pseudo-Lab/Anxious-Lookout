@@ -2,18 +2,18 @@
 
 export default function WaterRipple() {
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-0 h-64 overflow-hidden">
-      {/* 바다 위 햇살 반사 - 흰색/은빛 빛줄기 */}
-      <div className="absolute bottom-16 right-[15%] h-32 w-48 animate-shimmer rounded-full bg-white/20 blur-2xl" />
-      <div className="absolute bottom-24 right-[20%] h-20 w-64 animate-shimmer-slow rounded-full bg-white/15 blur-3xl" />
-      <div className="absolute bottom-12 right-[12%] h-16 w-40 animate-shimmer-fast rounded-full bg-white/25 blur-xl" />
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      {/* 바다 위 햇살 반사 - 우하단 영역 */}
+      <div className="absolute bottom-[8%] right-[10%] h-32 w-48 animate-shimmer rounded-full bg-white/20 blur-2xl" />
+      <div className="absolute bottom-[12%] right-[15%] h-20 w-64 animate-shimmer-slow rounded-full bg-white/15 blur-3xl" />
+      <div className="absolute bottom-[5%] right-[8%] h-16 w-40 animate-shimmer-fast rounded-full bg-white/25 blur-xl" />
 
       {/* 작은 반짝임들 */}
-      <div className="absolute bottom-20 right-[18%] h-3 w-3 animate-sparkle rounded-full bg-white/60 blur-sm" />
-      <div className="absolute bottom-28 right-[22%] h-2 w-2 animate-sparkle-delayed rounded-full bg-white/50 blur-sm" />
-      <div className="absolute bottom-14 right-[16%] h-2 w-2 animate-sparkle-slow rounded-full bg-white/55 blur-sm" />
-      <div className="absolute bottom-24 right-[25%] h-2.5 w-2.5 animate-sparkle rounded-full bg-white/45 blur-sm" />
-      <div className="absolute bottom-10 right-[20%] h-2 w-2 animate-sparkle-delayed rounded-full bg-white/50 blur-sm" />
+      <div className="absolute bottom-[10%] right-[13%] h-3 w-3 animate-sparkle rounded-full bg-white/60 blur-sm" />
+      <div className="absolute bottom-[15%] right-[18%] h-2 w-2 animate-sparkle-delayed rounded-full bg-white/50 blur-sm" />
+      <div className="absolute bottom-[6%] right-[11%] h-2 w-2 animate-sparkle-slow rounded-full bg-white/55 blur-sm" />
+      <div className="absolute bottom-[13%] right-[20%] h-2.5 w-2.5 animate-sparkle rounded-full bg-white/45 blur-sm" />
+      <div className="absolute bottom-[4%] right-[16%] h-2 w-2 animate-sparkle-delayed rounded-full bg-white/50 blur-sm" />
 
       <style>{`
         @keyframes shimmer {
