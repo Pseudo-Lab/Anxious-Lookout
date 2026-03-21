@@ -18,7 +18,7 @@ export default function Header() {
   ].filter((l) => l.show);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-stone-200 bg-white/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-white/30 bg-white/60 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 text-xl font-bold tracking-tight text-stone-900">

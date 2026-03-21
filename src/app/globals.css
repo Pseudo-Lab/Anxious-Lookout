@@ -24,7 +24,9 @@
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(to bottom, #e0f2fe, #f0f9ff 30%, #f8fafc 50%, #eff6ff 70%, #bfdbfe);
+  background-attachment: fixed;
+  min-height: 100vh;
   color: var(--foreground);
 }
 
