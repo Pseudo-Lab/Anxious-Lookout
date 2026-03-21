@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import WaterRipple from "@/components/layout/WaterRipple";
 import { SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants";
 import "./globals.css";
 
@@ -51,6 +52,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <WaterRipple />
         </AuthProvider>
       </body>
     </html>
