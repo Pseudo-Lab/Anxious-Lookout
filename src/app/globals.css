@@ -26,7 +26,7 @@
 body {
   background:
     radial-gradient(ellipse at 85% 5%, #fef3c7 0%, transparent 40%),
-    linear-gradient(to bottom, #e0f2fe, #f0f9ff 30%, #f8fafc 50%, #eff6ff 70%, #bfdbfe);
+    linear-gradient(to bottom, #e0f2fe, #f0f9ff 30%, #f8fafc 50%, #dbeafe 70%, #60a5fa 90%, #3b82f6);
   background-attachment: fixed;
   min-height: 100vh;
   color: var(--foreground);

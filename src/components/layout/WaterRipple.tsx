@@ -2,7 +2,7 @@
 
 export default function WaterRipple() {
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 z-40 overflow-hidden">
       {/* 바다 위 햇살 반사 - 우하단 영역 */}
       <div className="absolute bottom-[8%] right-[10%] h-32 w-48 animate-shimmer rounded-full bg-white/20 blur-2xl" />
       <div className="absolute bottom-[12%] right-[15%] h-20 w-64 animate-shimmer-slow rounded-full bg-white/15 blur-3xl" />
