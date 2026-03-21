@@ -25,43 +25,34 @@ export async function getAllProfiles(): Promise<Profile[]> {
   return (data as Profile[]) ?? [];
 }
 
-export async function approveUser(userId: string): Promise<Profile> {
-  const { data, error } = await supabase
+export async function approveUser(userId: string): Promise<void> {
+  const { error } = await supabase
     .from("profiles")
     .update({ is_approved: true })
-    .eq("id", userId)
-    .select()
-    .single();
+    .eq("id", userId);
 
   if (error) throw error;
-  return data as Profile;
 }
 
-export async function revokeUser(userId: string): Promise<Profile> {
-  const { data, error } = await supabase
+export async function revokeUser(userId: string): Promise<void> {
+  const { error } = await supabase
     .from("profiles")
     .update({ is_approved: false })
-    .eq("id", userId)
-    .select()
-    .single();
+    .eq("id", userId);
 
   if (error) throw error;
-  return data as Profile;
 }
 
 export async function updateUserRole(
   userId: string,
   role: Profile["role"]
-): Promise<Profile> {
-  const { data, error } = await supabase
+): Promise<void> {
+  const { error } = await supabase
     .from("profiles")
     .update({ role })
-    .eq("id", userId)
-    .select()
-    .single();
+    .eq("id", userId);
 
   if (error) throw error;
-  return data as Profile;
 }
 
 // ---- Comments ----
