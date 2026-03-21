@@ -26,6 +26,7 @@ function WritePage() {
   const [saving, setSaving] = useState(false);
   const [publishing, setPublishing] = useState(false);
   const [message, setMessage] = useState("");
+  const [mdMode, setMdMode] = useState(false);
   const editorRef = useRef<any>(null);
 
   useEffect(() => {
@@ -201,15 +202,54 @@ function WritePage() {
 
           <TagInput value={tagsInput} onChange={setTagsInput} />
 
-          <NovelEditor key={currentDraft?.id ?? "new"} value={body} onChange={setBody} editorRef={editorRef} />
+          {/* 에디터 모드 토글 */}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setMdMode(false)}
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+                !mdMode
+                  ? "bg-indigo-600 text-white"
+                  : "bg-stone-100 text-stone-500 hover:bg-stone-200"
+              }`}
+            >
+              에디터
+            </button>
+            <button
+              type="button"
+              onClick={() => setMdMode(true)}
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+                mdMode
+                  ? "bg-indigo-600 text-white"
+                  : "bg-stone-100 text-stone-500 hover:bg-stone-200"
+              }`}
+            >
+              Markdown
+            </button>
+          </div>
+
+          {mdMode ? (
+            <textarea
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              placeholder="마크다운으로 작성하세요..."
+              className="min-h-[400px] w-full resize-y rounded-lg border border-stone-300 bg-white p-6 font-mono text-sm text-stone-800 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            />
+          ) : (
+            <NovelEditor key={currentDraft?.id ?? "new"} value={body} onChange={setBody} editorRef={editorRef} />
+          )}
 
           <ImageUpload
             onUploaded={(url) => {
-              const editor = editorRef.current;
-              if (editor) {
-                editor.chain().focus().setImage({ src: url, alt: "이미지" }).run();
-              } else {
+              if (mdMode) {
                 setBody((prev) => prev + `\n![이미지](${url})\n`);
+              } else {
+                const editor = editorRef.current;
+                if (editor) {
+                  editor.chain().focus().setImage({ src: url, alt: "이미지" }).run();
+                } else {
+                  setBody((prev) => prev + `\n![이미지](${url})\n`);
+                }
               }
             }}
           />
