@@ -49,27 +49,39 @@ export default function CommentSection({ postSlug }: CommentSectionProps) {
     return comments.filter((c) => c.parent_id === parentId);
   }
 
+  function getCommentById(id: string) {
+    return comments.find((c) => c.id === id) ?? null;
+  }
+
   function renderThread(parentId: string, depth: number) {
     const children = getChildren(parentId);
     if (children.length === 0) return null;
-    return children.map((child) => (
-      <div key={child.id}>
-        <CommentItem
-          comment={child}
-          authorProfile={profiles[child.user_id] ?? null}
-          currentUserId={user?.id ?? null}
-          isAdmin={isAdmin}
-          depth={depth}
-          onEdit={edit}
-          onDelete={remove}
-          onReply={async (body, pid) => {
-            if (!user) return;
-            await add(user.id, body, pid);
-          }}
-        />
-        {renderThread(child.id, depth + 1)}
-      </div>
-    ));
+    return children.map((child) => {
+      const parent = child.parent_id ? getCommentById(child.parent_id) : null;
+      const parentAuthorName = parent
+        ? (profiles[parent.user_id]?.display_name ?? "알 수 없음")
+        : null;
+      return (
+        <div key={child.id}>
+          <CommentItem
+            comment={child}
+            authorProfile={profiles[child.user_id] ?? null}
+            currentUserId={user?.id ?? null}
+            isAdmin={isAdmin}
+            depth={depth}
+            parentAuthorName={parentAuthorName}
+            parentBody={parent?.body ?? null}
+            onEdit={edit}
+            onDelete={remove}
+            onReply={async (body, pid) => {
+              if (!user) return;
+              await add(user.id, body, pid);
+            }}
+          />
+          {renderThread(child.id, depth + 1)}
+        </div>
+      );
+    });
   }
 
   return (
