@@ -25,5 +25,5 @@ CREATE POLICY "Authors can update own drafts"
   )
   WITH CHECK (
     author_id = auth.uid()
-    AND status IN ('draft', 'pending', 'deleted')
+    AND status IN ('draft', 'pending', 'published', 'deleted')
   );
