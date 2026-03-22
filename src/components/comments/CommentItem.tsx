@@ -56,12 +56,6 @@ export default function CommentItem({
 
   return (
     <div className={`py-4 ${depth > 0 ? "border-l-2 border-zinc-100 pl-4 dark:border-zinc-800" : ""}`} style={depth > 0 ? { marginLeft: `${Math.min(depth, MAX_INDENT) * 1.5}rem` } : undefined}>
-      {depth > 0 && parentAuthorName && parentBody && (
-        <div className="mb-2 flex items-start gap-1.5 rounded-md bg-stone-100/60 px-3 py-1.5 text-xs text-stone-500">
-          <span className="shrink-0 font-medium text-stone-600">{parentAuthorName}:</span>
-          <span className="line-clamp-1">{parentBody}</span>
-        </div>
-      )}
       <div className="flex items-center gap-2 text-sm">
         <span className="font-medium">
           {authorProfile?.display_name ?? "알 수 없음"}
@@ -76,6 +70,11 @@ export default function CommentItem({
           })}
         </span>
       </div>
+      {depth > 0 && parentBody && (
+        <div className="mt-1.5 rounded-md bg-stone-100/60 px-3 py-1.5 text-xs text-stone-500 line-clamp-1">
+          {parentBody}
+        </div>
+      )}
 
       {editing ? (
         <div className="mt-2">
