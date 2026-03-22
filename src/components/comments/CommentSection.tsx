@@ -51,7 +51,7 @@ export default function CommentSection({ postSlug }: CommentSectionProps) {
   }
 
   return (
-    <section className="mt-12 border-t border-zinc-200 pt-8 dark:border-zinc-800">
+    <section className="mt-12 rounded-xl bg-white/40 p-6 ring-1 ring-stone-200/40 backdrop-blur-sm">
       <h2 className="mb-6 text-xl font-semibold">
         댓글 {comments.filter((c) => c.status === "published").length > 0 &&
           `(${comments.filter((c) => c.status === "published").length})`}
@@ -66,7 +66,7 @@ export default function CommentSection({ postSlug }: CommentSectionProps) {
       )}
 
       {!loading && (
-        <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
+        <div className="divide-y divide-stone-200/60">
           {topLevel.map((comment) => (
             <div key={comment.id}>
               <CommentItem
