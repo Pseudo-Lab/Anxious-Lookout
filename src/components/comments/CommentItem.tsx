@@ -53,7 +53,13 @@ export default function CommentItem({
           {authorProfile?.display_name ?? "알 수 없음"}
         </span>
         <span className="text-zinc-400 dark:text-zinc-500">
-          {new Date(comment.created_at).toLocaleDateString("ko-KR")}
+          {new Date(comment.created_at).toLocaleString("ko-KR", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
         </span>
       </div>
 
