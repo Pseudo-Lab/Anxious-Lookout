@@ -6,6 +6,7 @@ export async function getMyDrafts(authorId: string): Promise<PostDraft[]> {
     .from("post_drafts")
     .select("*")
     .eq("author_id", authorId)
+    .neq("status", "deleted")
     .order("updated_at", { ascending: false });
 
   if (error) throw error;
@@ -80,7 +81,7 @@ export async function publishDraft(id: string): Promise<PostDraft> {
 export async function deleteDraft(id: string): Promise<void> {
   const { error } = await supabase
     .from("post_drafts")
-    .delete()
+    .update({ status: "deleted" as DraftStatus })
     .eq("id", id);
 
   if (error) throw error;

@@ -1,6 +1,6 @@
 export type UserRole = "admin" | "editor" | "commenter";
 
-export type DraftStatus = "draft" | "published";
+export type DraftStatus = "draft" | "published" | "deleted";
 
 export type CommentStatus = "published" | "hidden" | "deleted" | "pending";
 
