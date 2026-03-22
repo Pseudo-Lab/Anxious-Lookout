@@ -9,25 +9,17 @@ export async function getPublishedPosts(): Promise<PostDraft[]> {
     .order("created_at", { ascending: false });
 
   if (error) throw error;
-  return (
-    (data ?? []).map((row: Record<string, unknown>) => {
-      const profiles = row.profiles as { display_name: string } | null;
-      return {
-        ...row,
-        author_name: profiles?.display_name ?? "",
-        profiles: undefined,
-      } as PostDraft;
-    })
-  );
+  return (data ?? []).map((row: Record<string, unknown>) => {
+    const profiles = row.profiles as { display_name: string } | null;
+    const { profiles: _, ...rest } = row;
+    return { ...rest, author_name: profiles?.display_name ?? "" } as unknown as PostDraft;
+  });
 }
 
 function mapRowWithAuthor(row: Record<string, unknown>): PostDraft {
   const profiles = row.profiles as { display_name: string } | null;
-  return {
-    ...row,
-    author_name: profiles?.display_name ?? "",
-    profiles: undefined,
-  } as PostDraft;
+  const { profiles: _, ...rest } = row;
+  return { ...rest, author_name: profiles?.display_name ?? "" } as unknown as PostDraft;
 }
 
 export async function getPublishedPostBySlug(
