@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { getPublishedPostBySlug } from "@/lib/drafts/published";
+import { useAuth } from "@/hooks/useAuth";
 import MarkdownContent from "./MarkdownContent";
 import TagBadge from "./TagBadge";
 import LikeButton from "./LikeButton";
@@ -13,6 +15,7 @@ interface DynamicPostViewProps {
 }
 
 export default function DynamicPostView({ slug }: DynamicPostViewProps) {
+  const { user } = useAuth();
   const [post, setPost] = useState<PostDraft | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
@@ -49,9 +52,19 @@ export default function DynamicPostView({ slug }: DynamicPostViewProps) {
   return (
     <article className="mx-auto max-w-3xl">
       <header className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-stone-900">
-          {post.title}
-        </h1>
+        <div className="flex items-start justify-between gap-4">
+          <h1 className="text-3xl font-bold tracking-tight text-stone-900">
+            {post.title}
+          </h1>
+          {user && user.id === post.author_id && (
+            <Link
+              href={`/write?edit=${post.id}`}
+              className="shrink-0 rounded-lg border border-stone-300 px-4 py-2 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-50"
+            >
+              수정
+            </Link>
+          )}
+        </div>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <span className="text-sm text-stone-500">
             {post.author_name ? `${post.author_name} · ` : ""}

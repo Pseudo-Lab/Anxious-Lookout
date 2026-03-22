@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import NovelEditor from "@/components/editor/NovelEditor";
@@ -17,6 +18,8 @@ import type { PostDraft } from "@/lib/supabase/types";
 
 function WritePage() {
   const { user } = useAuth();
+  const searchParams = useSearchParams();
+  const editId = searchParams.get("edit");
 
   const [drafts, setDrafts] = useState<PostDraft[]>([]);
   const [currentDraft, setCurrentDraft] = useState<PostDraft | null>(null);
@@ -28,10 +31,22 @@ function WritePage() {
   const [message, setMessage] = useState("");
   const [mdMode, setMdMode] = useState(false);
   const editorRef = useRef<any>(null);
+  const [editApplied, setEditApplied] = useState(false);
 
   useEffect(() => {
     if (user) loadDrafts();
   }, [user]);
+
+  // ?edit=<id> 쿼리파라미터로 진입 시 해당 draft 자동 선택
+  useEffect(() => {
+    if (editId && drafts.length > 0 && !editApplied) {
+      const target = drafts.find((d) => d.id === editId);
+      if (target) {
+        selectDraft(target);
+        setEditApplied(true);
+      }
+    }
+  }, [editId, drafts, editApplied]);
 
   async function loadDrafts() {
     if (!user) return;
@@ -285,7 +300,9 @@ function WritePage() {
 export default function WritePageWrapper() {
   return (
     <ProtectedRoute requireApproved>
-      <WritePage />
+      <Suspense>
+        <WritePage />
+      </Suspense>
     </ProtectedRoute>
   );
 }
