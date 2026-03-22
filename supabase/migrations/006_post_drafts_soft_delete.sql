@@ -15,6 +15,7 @@ ALTER TABLE public.post_drafts
 -- only allows updating drafts with status IN ('draft', 'rejected').
 -- We need to also allow updating published posts to 'deleted'.
 DROP POLICY IF EXISTS "Authors can update own draft or rejected drafts" ON public.post_drafts;
+DROP POLICY IF EXISTS "Authors can update own drafts" ON public.post_drafts;
 
 CREATE POLICY "Authors can update own drafts"
   ON public.post_drafts FOR UPDATE
