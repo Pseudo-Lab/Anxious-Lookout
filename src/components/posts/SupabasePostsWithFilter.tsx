@@ -12,8 +12,14 @@ function draftToPost(draft: PostDraft): Post {
     frontmatter: {
       title: draft.title,
       description: "",
-      date: draft.created_at.split("T")[0],
-      author: "",
+      date: new Date(draft.created_at).toLocaleString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      author: draft.author_name ?? "",
       tags: draft.tags ?? [],
     },
     content: draft.body,

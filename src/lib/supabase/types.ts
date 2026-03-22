@@ -37,6 +37,7 @@ export interface PostDraft {
   status: DraftStatus;
   created_at: string;
   updated_at: string;
+  author_name?: string;
 }
 
 export interface Comment {

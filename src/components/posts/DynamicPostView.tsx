@@ -54,7 +54,14 @@ export default function DynamicPostView({ slug }: DynamicPostViewProps) {
         </h1>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <span className="text-sm text-stone-500">
-            {post.created_at.split("T")[0]}
+            {post.author_name ? `${post.author_name} · ` : ""}
+            {new Date(post.created_at).toLocaleString("ko-KR", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </span>
           <div className="flex gap-2">
             {post.tags?.map((tag) => (
