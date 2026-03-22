@@ -9,16 +9,20 @@ interface CommentItemProps {
   authorProfile: Profile | null;
   currentUserId: string | null;
   isAdmin: boolean;
+  depth: number;
   onEdit: (commentId: string, body: string) => Promise<unknown>;
   onDelete: (commentId: string) => Promise<unknown>;
   onReply: (body: string, parentId: string) => Promise<unknown>;
 }
+
+const MAX_INDENT = 3;
 
 export default function CommentItem({
   comment,
   authorProfile,
   currentUserId,
   isAdmin,
+  depth,
   onEdit,
   onDelete,
   onReply,
@@ -47,7 +51,7 @@ export default function CommentItem({
   const canDelete = isOwner || isAdmin;
 
   return (
-    <div className={`py-4 ${comment.parent_id ? "ml-8 border-l-2 border-zinc-100 pl-4 dark:border-zinc-800" : ""}`}>
+    <div className={`py-4 ${depth > 0 ? "border-l-2 border-zinc-100 pl-4 dark:border-zinc-800" : ""}`} style={depth > 0 ? { marginLeft: `${Math.min(depth, MAX_INDENT) * 1.5}rem` } : undefined}>
       <div className="flex items-center gap-2 text-sm">
         <span className="font-medium">
           {authorProfile?.display_name ?? "알 수 없음"}

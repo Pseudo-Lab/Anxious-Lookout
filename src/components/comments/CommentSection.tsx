@@ -42,12 +42,34 @@ export default function CommentSection({ postSlug }: CommentSectionProps) {
       });
   }, [comments, profiles]);
 
-  // Organize into threads: top-level + replies
+  // Organize into threads
   const topLevel = comments.filter((c) => !c.parent_id);
-  const replies = comments.filter((c) => c.parent_id);
 
-  function getReplies(parentId: string) {
-    return replies.filter((r) => r.parent_id === parentId);
+  function getChildren(parentId: string) {
+    return comments.filter((c) => c.parent_id === parentId);
+  }
+
+  function renderThread(parentId: string, depth: number) {
+    const children = getChildren(parentId);
+    if (children.length === 0) return null;
+    return children.map((child) => (
+      <div key={child.id}>
+        <CommentItem
+          comment={child}
+          authorProfile={profiles[child.user_id] ?? null}
+          currentUserId={user?.id ?? null}
+          isAdmin={isAdmin}
+          depth={depth}
+          onEdit={edit}
+          onDelete={remove}
+          onReply={async (body, pid) => {
+            if (!user) return;
+            await add(user.id, body, pid);
+          }}
+        />
+        {renderThread(child.id, depth + 1)}
+      </div>
+    ));
   }
 
   return (
@@ -74,6 +96,7 @@ export default function CommentSection({ postSlug }: CommentSectionProps) {
                 authorProfile={profiles[comment.user_id] ?? null}
                 currentUserId={user?.id ?? null}
                 isAdmin={isAdmin}
+                depth={0}
                 onEdit={edit}
                 onDelete={remove}
                 onReply={async (body, parentId) => {
@@ -81,21 +104,7 @@ export default function CommentSection({ postSlug }: CommentSectionProps) {
                   await add(user.id, body, parentId);
                 }}
               />
-              {getReplies(comment.id).map((reply) => (
-                <CommentItem
-                  key={reply.id}
-                  comment={reply}
-                  authorProfile={profiles[reply.user_id] ?? null}
-                  currentUserId={user?.id ?? null}
-                  isAdmin={isAdmin}
-                  onEdit={edit}
-                  onDelete={remove}
-                  onReply={async (body, parentId) => {
-                    if (!user) return;
-                    await add(user.id, body, parentId);
-                  }}
-                />
-              ))}
+              {renderThread(comment.id, 1)}
             </div>
           ))}
         </div>
