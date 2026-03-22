@@ -6,11 +6,15 @@ import type { PostDraft, Profile, Comment } from "@/lib/supabase/types";
 export async function getAllDrafts(): Promise<PostDraft[]> {
   const { data, error } = await supabase
     .from("post_drafts")
-    .select("*")
+    .select("*, profiles:author_id(display_name)")
     .order("updated_at", { ascending: false });
 
   if (error) throw error;
-  return (data as PostDraft[]) ?? [];
+  return (data ?? []).map((row: Record<string, unknown>) => {
+    const profiles = row.profiles as { display_name: string } | null;
+    const { profiles: _, ...rest } = row;
+    return { ...rest, author_name: profiles?.display_name ?? "" } as unknown as PostDraft;
+  });
 }
 
 // ---- Users ----

@@ -90,8 +90,17 @@ function PostManagement() {
                   <span className={statusColor[d.status]}>
                     {statusLabel[d.status]}
                   </span>
+                  {d.author_name && (
+                    <span className="text-zinc-500">{d.author_name}</span>
+                  )}
                   <span className="text-zinc-400">
-                    {new Date(d.updated_at).toLocaleDateString("ko-KR")}
+                    {new Date(d.created_at).toLocaleString("ko-KR", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </span>
                 </div>
               </button>
@@ -107,9 +116,21 @@ function PostManagement() {
           {selected ? (
             <div>
               <h2 className="text-xl font-semibold">{selected.title}</h2>
-              <div className="mt-2 flex items-center gap-3 text-sm text-zinc-500">
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-zinc-500">
                 <span className={statusColor[selected.status]}>
                   {statusLabel[selected.status]}
+                </span>
+                {selected.author_name && (
+                  <span>작성자: {selected.author_name}</span>
+                )}
+                <span>
+                  {new Date(selected.created_at).toLocaleString("ko-KR", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </span>
                 <span>태그: {selected.tags?.join(", ") || "없음"}</span>
               </div>
