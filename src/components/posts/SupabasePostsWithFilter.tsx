@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { getPublishedPosts } from "@/lib/drafts/published";
 import type { Post } from "@/types/post";
 import type { PostDraft } from "@/lib/supabase/types";
@@ -28,9 +29,11 @@ function draftToPost(draft: PostDraft): Post {
 }
 
 export default function SupabasePostsWithFilter() {
+  const searchParams = useSearchParams();
+  const initialTag = searchParams.get("tag");
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedTag, setSelectedTag] = useState<string | null>(initialTag);
 
   useEffect(() => {
     getPublishedPosts()
