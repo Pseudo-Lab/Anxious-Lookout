@@ -30,10 +30,15 @@ function draftToPost(draft: PostDraft): Post {
 
 export default function SupabasePostsWithFilter() {
   const searchParams = useSearchParams();
-  const initialTag = searchParams.get("tag");
+  const tagParam = searchParams.get("tag");
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedTag, setSelectedTag] = useState<string | null>(initialTag);
+  const [selectedTag, setSelectedTag] = useState<string | null>(tagParam);
+
+  // URL의 ?tag= 변경 시 selectedTag 동기화
+  useEffect(() => {
+    setSelectedTag(tagParam);
+  }, [tagParam]);
 
   useEffect(() => {
     getPublishedPosts()
